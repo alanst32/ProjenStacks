@@ -64,6 +64,14 @@
       "name": "compile",
       "description": "Only compile"
     },
+    "coverage": {
+      "name": "coverage",
+      "steps": [
+        {
+          "exec": "jest test --coverage"
+        }
+      ]
+    },
     "default": {
       "name": "default",
       "description": "Synthesize project files",

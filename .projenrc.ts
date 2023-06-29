@@ -1,9 +1,9 @@
-import { awscdk } from "projen";
-import { CoverageBadges } from "./projenrc/coverage-badges";
-import {
-  cdkAppTsconfigPaths,
-  tsconfigPathsToModuleNameMapper,
-} from "./projenrc/projen-utils";
+import { DependencyType, awscdk } from "projen";
+
+import { CommitLint } from "./projenrc/commit-lint/commitLint";
+import { CoverageBadges } from "./projenrc/coverage-badge/coverage-badges";
+import { Husky } from "./projenrc/husky/husky";
+
 const project = new awscdk.AwsCdkTypeScriptApp({
   cdkVersion: "2.1.0",
   defaultReleaseBranch: "main",
@@ -32,7 +32,17 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     "jest-mock-extended@^2.0.6",
     "tsconfig-paths",
   ] /* Build dependencies for this module. */,
-  eslintOptions: { dirs: ["src", "projenrc"], prettier: true },
+  eslintOptions: {
+    dirs: ["src", "projenrc"],
+    devdirs: ["test"],
+    aliasMap: {
+      "@app": "./src/app",
+      "@infra": "./src/infra",
+      "@test": "./test",
+    },
+    aliasExtensions: [".ts", ".tsx", ".json", ".js", ".jsx"],
+    prettier: true,
+  },
   githubOptions: {
     pullRequestLintOptions: {
       semanticTitleOptions: {
@@ -71,9 +81,6 @@ const project = new awscdk.AwsCdkTypeScriptApp({
       coverageReporters: ["json-summary", "text", "lcov"],
       roots: ["<rootDir>/src"],
       moduleDirectories: ["node_modules", "src"],
-      moduleNameMapper: tsconfigPathsToModuleNameMapper(cdkAppTsconfigPaths, {
-        prefix: "<rootDir>",
-      }),
     },
   },
   name: "ProjenStacks",
@@ -133,9 +140,23 @@ tsConfigs.forEach((config) => {
   config?.file.addOverride("compilerOptions.baseUrl", ".");
   config?.file.addOverride("compilerOptions.lib", ["ES2020", "dom"]);
   config?.file.addOverride("compilerOptions.target", "ES2020");
-  config?.file.addOverride("compilerOptions.paths", cdkAppTsconfigPaths);
 });
 
-// coverage
+// Coverage Badges on GitHub
 new CoverageBadges(project, { allowedBranches: ["dev"] });
+// CommitLint
+new CommitLint(project);
+// Husky
+new Husky(project);
+
+if (
+  project.deps.tryGetDependency("aws-lambda", DependencyType.RUNTIME) ===
+  undefined
+) {
+  project.addDeps("aws-lambda");
+  project.addDevDeps("@types/aws-lambda");
+}
+
+project.addTask;
+
 project.synth();

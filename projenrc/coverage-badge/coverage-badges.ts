@@ -1,5 +1,6 @@
 import { javascript } from "projen";
 import { AwsCdkTypeScriptApp } from "projen/lib/awscdk";
+
 import {
   CoverageBadgesBase,
   CoverageBadgesOptions,

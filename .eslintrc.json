@@ -8,7 +8,8 @@
   "plugins": [
     "@typescript-eslint",
     "import",
-    "prettier"
+    "prettier",
+    "no-relative-import-paths"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -56,29 +57,24 @@
       "error",
       {
         "devDependencies": [
-          "**/test/**",
-          "**/build-tools/**",
-          ".projenrc.ts",
-          "projenrc/**/*.ts"
-        ],
-        "optionalDependencies": false,
-        "peerDependencies": true
+          "**/testing/**",
+          "**/*.test.ts",
+          "projenrc/**",
+          "src/infra/**"
+        ]
       }
     ],
     "import/no-unresolved": [
       "error"
     ],
     "import/order": [
-      "warn",
+      "error",
       {
-        "groups": [
-          "builtin",
-          "external"
-        ],
         "alphabetize": {
           "order": "asc",
           "caseInsensitive": true
-        }
+        },
+        "newlines-between": "always"
       }
     ],
     "no-duplicate-imports": [
@@ -132,6 +128,17 @@
     ]
   },
   "overrides": [
+    {
+      "files": [
+        "*.test.ts",
+        "projenrc/**/*",
+        "src/infra/**/*",
+        ".projenrc.ts"
+      ],
+      "rules": {
+        "no-relative-import-paths/no-relative-import-paths": "off"
+      }
+    },
     {
       "files": [
         ".projenrc.ts"

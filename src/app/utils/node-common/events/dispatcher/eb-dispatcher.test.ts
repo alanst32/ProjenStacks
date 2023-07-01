@@ -1,7 +1,7 @@
 /* eslint-disable import/order */
-import { mockBridgePutEvents } from '../../aws/mocks/event-bridge.mock';
 import { EventBridgeDispatcher } from './eb-dispatcher';
 import { PublishedEvent } from '../types';
+import { mockBridgePutEvents } from '../../mocks/event-bridge.mock';
 
 describe('EventBridgeDispatcher', () => {
   it('dispatches event to EventBridge', async () => {

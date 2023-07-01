@@ -1,5 +1,5 @@
 /* eslint-disable import/order */
-import { mockLog } from '../../log/log.mock';
+import { mockLog } from '../log/log.mock';
 import { ServiceMetric } from './metric';
 
 export const mockPutMetricData = jest.fn().mockImplementation(args => ({

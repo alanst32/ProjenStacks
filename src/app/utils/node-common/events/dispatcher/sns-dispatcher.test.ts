@@ -1,7 +1,7 @@
 /* eslint-disable import/order */
-import { mockSnsPublish } from '../../aws/mocks/sns.mock';
 import { SnsDispatcher } from './sns-dispatcher';
 import { PublishedEvent } from '../types';
+import { mockSnsPublish } from '../../mocks/sns.mock';
 
 describe('SnsDispatcher', () => {
   it('dispatches event to SNS', async () => {

@@ -9,6 +9,10 @@
       "type": "build"
     },
     {
+      "name": "@types/aws-lambda",
+      "type": "build"
+    },
+    {
       "name": "@types/jest",
       "type": "build"
     },
@@ -50,6 +54,11 @@
       "type": "build"
     },
     {
+      "name": "aws-sdk",
+      "version": "^2.1249.0",
+      "type": "build"
+    },
+    {
       "name": "axios-mock-adapter",
       "type": "build"
     },
@@ -67,6 +76,10 @@
     },
     {
       "name": "eslint-config-prettier",
+      "type": "build"
+    },
+    {
+      "name": "eslint-import-resolver-alias",
       "type": "build"
     },
     {
@@ -114,6 +127,11 @@
       "type": "build"
     },
     {
+      "name": "jest-mock-process",
+      "version": "^2.0.0",
+      "type": "build"
+    },
+    {
       "name": "npm-check-updates",
       "version": "^16",
       "type": "build"
@@ -145,6 +163,10 @@
     {
       "name": "aws-cdk-lib",
       "version": "^2.1.0",
+      "type": "runtime"
+    },
+    {
+      "name": "aws-lambda",
       "type": "runtime"
     },
     {

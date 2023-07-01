@@ -1,4 +1,5 @@
-import { ShiftStore } from '@/app/business/shift/store/types';
+import { ShiftKey } from '../model/model.';
+import { ShiftStore } from '../store/types';
 
 export type GetShiftProps = {
   shiftStore: ShiftStore;
@@ -7,7 +8,9 @@ export type GetShiftProps = {
 export const GetShift = (props: GetShiftProps) => {
   const { shiftStore } = props;
 
-  return async (shiftId: string) => {
-    return shiftStore.getShiftById(shiftId);
+  const processGet = async (request: ShiftKey) => {
+    return shiftStore.getShiftById(request.shiftId);
   };
+
+  return { processGet };
 };

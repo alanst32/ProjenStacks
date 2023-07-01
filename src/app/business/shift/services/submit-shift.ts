@@ -1,5 +1,5 @@
-import { ShiftRequest } from '@app/business/shift/model/model.';
-import { ShiftStore } from '@app/business/shift/store/types';
+import { ShiftRequest } from '../model/model.';
+import { ShiftStore } from '../store/types';
 
 export type SubmitShiftProps = {
   shiftStore: ShiftStore;
@@ -8,8 +8,10 @@ export type SubmitShiftProps = {
 export const SubmitShift = (props: SubmitShiftProps) => {
   const { shiftStore } = props;
 
-  return async (request: ShiftRequest) => {
+  const processSubmission = async (request: ShiftRequest) => {
     const shiftId = await shiftStore.saveShift(request);
     return { shiftId, message: 'Shift submitted' };
   };
+
+  return { processSubmission };
 };

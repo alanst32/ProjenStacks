@@ -1,6 +1,5 @@
-import { flatten } from "lodash";
-
-import { Shift } from "../model/shift";
+import { flatten } from 'lodash';
+import { Shift } from '../model/model.';
 
 export type Reducer = (shfit: Shift, record: any) => Shift;
 
@@ -39,9 +38,6 @@ export const Reduce = (props: { reducer: Reducer }) => {
       const timeB = b.timestamp || b.created;
       return timeA?.localeCompare?.(timeB) || 0;
     });
-    return sorted.reduce(
-      (transaction, record) => reducer(transaction, record),
-      {}
-    );
+    return sorted.reduce((transaction, record) => reducer(transaction, record), {});
   };
 };

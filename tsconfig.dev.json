@@ -26,18 +26,7 @@
     "stripInternal": true,
     "target": "ES2020",
     "baseUrl": ".",
-    "rootDir": ".",
-    "paths": {
-      "@app/*": [
-        "./src/app/*"
-      ],
-      "@infra/*": [
-        "./src/infra/*"
-      ],
-      "@test/*": [
-        "./src/test/*"
-      ]
-    }
+    "rootDir": "."
   },
   "include": [
     ".projenrc.js",

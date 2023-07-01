@@ -10,8 +10,10 @@ export const ShiftRequest = z.object({
 });
 export type ShiftRequest = z.infer<typeof ShiftRequest>;
 
-export const ShiftIdGetRequest = ShiftRequest;
-export type ShiftIdGetRequest = z.infer<typeof ShiftIdGetRequest>;
+export const ShiftKey = z.object({
+  shiftId: z.string(),
+});
+export type ShiftKey = z.infer<typeof ShiftKey>;
 
 export type StatusEvents = {
   status: string;

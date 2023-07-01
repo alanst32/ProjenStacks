@@ -41,11 +41,11 @@ const project = new awscdk.AwsCdkTypeScriptApp({
   eslintOptions: {
     dirs: ['src', 'projenrc'],
     devdirs: ['test'],
-    aliasMap: {
-      '@app': './src/app',
-      '@infra': './src/infra',
-      '@test': './test',
-    },
+    // aliasMap: {
+    //   '@app': './src/app',
+    //   '@infra': './src/infra',
+    //   '@test': './test',
+    // },
     aliasExtensions: ['.ts', '.tsx', '.json', '.js', '.jsx'],
     prettier: true,
   },
@@ -90,14 +90,17 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     compilerOptions: {
       baseUrl: '.',
       rootDir: '.',
-      paths: {
-        '@app/*': ['./src/app/*'],
-        '@infra/*': ['./src/infra/*'],
-        '@test/*': ['./src/test/*'],
-      },
+      // paths: {
+      //   '@/app/*': ['./src/app/*'],
+      //   '@/infra/*': ['./src.infra/*'],
+      //   '@test/*': ['./src/test/*'],
+      // },
     },
   },
 });
+
+project.addDeps('@brokerloop/ttlcache', 'nanoid@^3', 'retry-as-promised', 'ulid');
+project.addDevDeps('msw@^1.2.2', 'typedoc@^0.24.4');
 
 // GIT IGNORE
 project.gitignore.addPatterns('cdk.context.json', '.idea', '*.iml', '.DS_Store', '.vscode/');
@@ -108,10 +111,13 @@ project.eslint?.addPlugins('no-relative-import-paths');
 project.eslint!.addRules({
   'import/no-extraneous-dependencies': 'off',
   'no-restricted-exports': ['error', { restrictDefaultExports: { direct: true } }],
-  'no-relative-import-paths/no-relative-import-paths': [
-    'error',
-    { allowSameFolder: true, rootDir: 'src', prefix: '@' },
-  ],
+});
+
+project.eslint?.addOverride({
+  files: ['*.test.ts', 'projenrc/**/*', 'src/infra/**/*', '.projenrc.ts'],
+  rules: {
+    'no-relative-import-paths/no-relative-import-paths': 'off',
+  },
 });
 
 // TS CONFIG

@@ -1,4 +1,4 @@
-import { Shift, ShiftRequest } from '@/app/business/shift/model/shift';
+import { Shift, ShiftRequest } from '../model/model.';
 
 export interface ShiftStore {
   getShiftById: (id: string) => Promise<Shift | undefined>;

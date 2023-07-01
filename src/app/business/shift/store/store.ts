@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { DynamoDB } from 'aws-sdk';
 import dayjs from 'dayjs';
 import { v4 as uuidv4 } from 'uuid';
@@ -6,14 +5,9 @@ import { v4 as uuidv4 } from 'uuid';
 import { DefaultReducer, Reduce } from './reducer';
 import { ShiftStore } from './types';
 import { QueryAll } from './utils';
-import { Shift, ShiftRequest } from '@app/business/shift/model/shift';
+import { ShiftRequest, Shift } from '../model/model.';
 
-export type DynamoShiftStoreProps = {
-  table?: string;
-  ttlDays?: number;
-};
-
-export const DynamoShiftStore = (props?: DynamoShiftStoreProps): ShiftStore => {
+export const DynamoShiftStore = (props: { table?: string; ttlDays?: number }): ShiftStore => {
   const tableName = props?.table ?? process.env.TABLE_NAME;
   if (!tableName) throw new Error('No table name given or missing TABLE_NAME');
 

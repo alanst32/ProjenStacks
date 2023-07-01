@@ -30,29 +30,6 @@
       ]
     },
     "import/resolver": {
-      "alias": {
-        "map": [
-          [
-            "@app",
-            "/app"
-          ],
-          [
-            "@infra",
-            "/infra"
-          ],
-          [
-            "@test",
-            "/test"
-          ]
-        ],
-        "extensions": [
-          ".ts",
-          ".tsx",
-          ".json",
-          ".js",
-          ".jsx"
-        ]
-      },
       "node": {},
       "typescript": {
         "project": "./tsconfig.dev.json",
@@ -149,17 +126,20 @@
           "direct": true
         }
       }
-    ],
-    "no-relative-import-paths/no-relative-import-paths": [
-      "error",
-      {
-        "allowSameFolder": true,
-        "rootDir": "src",
-        "prefix": "@"
-      }
     ]
   },
   "overrides": [
+    {
+      "files": [
+        "*.test.ts",
+        "projenrc/**/*",
+        "src/infra/**/*",
+        ".projenrc.ts"
+      ],
+      "rules": {
+        "no-relative-import-paths/no-relative-import-paths": "off"
+      }
+    },
     {
       "files": [
         ".projenrc.ts"

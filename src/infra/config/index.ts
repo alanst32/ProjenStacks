@@ -1,39 +1,34 @@
 /*
 Environment configuration management, setting stacks for non prod and & prod enviroments
 */
+import { EnvConfig } from './types';
 
-import { EnvConfig } from "./types";
-
-const CEVO_SANDBOX = "590312749310";
-const region = "ap-southeast-2";
+const CEVO_SANDBOX = '590312749310';
+const region = 'ap-southeast-2';
+const domain = 'cevo-dev.ninja';
 
 const nonProdStackConfig = (appEnv: string) => ({
   appEnv,
   awsEnv: { account: CEVO_SANDBOX, region },
   backupEnable: false,
-  apiDomain: "se-dev.api.testdomaincevo.com.au",
   isProd: false,
-  zoneId: "Z02092162696BT9GS13PB",
-  zoneName: "testdomaincevo.com.au",
+  hostedZone: { id: 'Z0861021OA0JBAPE5NV6', name: `projen-stacks.${domain}` },
+  certificateArn: 'arn:aws:acm:ap-southeast-2:590312749310:certificate/5ad4c38b-0d85-4e41-a851-1097f883b73a',
 });
 
 export const standardEnvs: EnvConfig[] = [
   {
-    ...nonProdStackConfig("dev"),
+    ...nonProdStackConfig('dev'),
   },
   // {
   //   appEnv: "production",
   //   awsEnv: { account: CEVO_SANDBOX, region },
   //   backupEnable: true,
   //   isProd: true,
+  //   hostedZone: { id: 'TODO', name: `ps-projen-stacks-cevodev.com.au}` },
   // },
 ];
 
 export const getEnvConfigs = (): EnvConfig[] => {
   return [...standardEnvs];
-};
-
-export const getSubdomain = (appEnv: string, subdomain: string) => {
-  if (appEnv === "production") return subdomain;
-  else return `${appEnv}-${subdomain}`;
 };

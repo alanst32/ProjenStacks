@@ -1,6 +1,5 @@
 import { Middleware } from './core';
-import { Response } from '../aws/apigateway/response';
-import { ApiEvent } from '../aws/apigateway/types';
+import { ApiEvent, Response } from '../apigateway';
 import { toLowerCasedKey } from '../lang/record';
 
 /**

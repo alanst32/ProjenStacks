@@ -1,7 +1,6 @@
 import { Middleware } from './core';
-import { Response } from '@/app/utils/aws/apigateway/response';
-import { ApiEvent } from '@/app/utils/aws/apigateway/types';
-import { Logger } from '@/app/utils/log/logger';
+import { ApiEvent, Response } from '../apigateway';
+import { Logger } from '../log/logger';
 
 /**
  * Create a middleware used to log the ApiEvent and the Response.

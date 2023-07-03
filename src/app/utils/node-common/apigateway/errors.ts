@@ -1,5 +1,5 @@
-import { HttpStatus } from '../../http/status';
-import { SerializableRecord } from '../../lang/types';
+import { HttpStatus } from '../http';
+import { SerializableRecord } from '../lang';
 
 /**
  * The error type that contains HTTP status code that {@link aws/apigateway/handler!ApiHandler} can use to set the API Gateway response HTTP status code.

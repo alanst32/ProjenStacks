@@ -1,5 +1,9 @@
 /* eslint-disable  @typescript-eslint/no-require-imports */
-const { name: projectName } = require("../../../package.json");
+const { name: projectName } = require('../../../package.json');
 
-export const getStackName = (appEnv: string) => `se-${appEnv}-${projectName}`;
-export const getDomainStackName = (appEnv: string) => `se-${appEnv}-domain`;
+export const isProdEnv = (envPrefix: string): boolean => {
+  return ['prod', 'production'].includes(envPrefix.toLowerCase());
+};
+export const getStackName = (appEnv: string) => `${appEnv}-${projectName}`;
+export const restApiSubDomainName = (appEnv: string) => (isProdEnv(appEnv) ? 'api' : `${appEnv}-api`);
+export const restApiDomainName = (zoneName: string, appEnv: string) => `${restApiSubDomainName(appEnv)}.${zoneName}`;

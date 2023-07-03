@@ -5,24 +5,24 @@ import { Construct } from 'constructs';
 
 import { ProjenStacksProps } from '../projen-stacks';
 
-export interface SENetworkConstructProps extends ProjenStacksProps {
+export interface PSBusinessConstructProps extends ProjenStacksProps {
   seResource: Resource;
   restApi: RestApi;
   dbTable: Table;
 }
 
-export class SENetworkConstruct extends Construct {
-  constructor(scope: Construct, id: string, props: SENetworkConstructProps) {
+export class PSBusinessConstruct extends Construct {
+  constructor(scope: Construct, id: string, props: PSBusinessConstructProps) {
     super(scope, id);
 
-    const { seResource, dbTable } = props;
+    const { seResource, dbTable, envConfig } = props;
 
     // <domain>/v1/booking
     const bookingResource = seResource.addResource('booking');
 
     // PUT API
-    const submitBookingLambda = new NodejsFunction(this, 'submit-booking', {
-      functionName: 'submit-booking',
+    const submitBookingLambda = new NodejsFunction(this, `${envConfig.appEnv}-submit-booking`, {
+      functionName: `${envConfig.appEnv}-submit-booking`,
       description: 'Submit booking example PUT API',
       entry: 'src/app/business/shift/api/submit/index.ts',
       environment: {
@@ -33,8 +33,8 @@ export class SENetworkConstruct extends Construct {
     bookingResource.addMethod('PUT', new LambdaIntegration(submitBookingLambda));
 
     // GET API
-    const getBookingLambda = new NodejsFunction(this, 'submit-booking', {
-      functionName: 'submit-booking',
+    const getBookingLambda = new NodejsFunction(this, `${envConfig.appEnv}-get-shift-by-id`, {
+      functionName: `${envConfig.appEnv}-get-shift-by-id`,
       description: 'Submit booking example PUT API',
       entry: 'src/app/business/shift/api/get-by-id/index.ts',
       environment: {

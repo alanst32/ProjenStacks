@@ -2,30 +2,20 @@
 export type Before<TEvent> = (event: TEvent) => TEvent | Promise<TEvent>;
 
 /** The function to run after the handler runs. */
-export type After<TResponse> = (
-  response: TResponse
-) => TResponse | Promise<TResponse>;
+export type After<TResponse> = (response: TResponse) => TResponse | Promise<TResponse>;
 
 /** The function to run when an error is thrown from the handler. */
-export type OnError<TResponse, TError> = (
-  error: TError
-) => TResponse | Promise<TResponse>;
+export type OnError<TResponse, TError> = (error: TError) => TResponse | Promise<TResponse>;
 
 /** The handler to wrap. */
-export type Handler<TEvent, TResponse> = (
-  event: TEvent
-) => TResponse | Promise<TResponse>;
+export type Handler<TEvent, TResponse> = (event: TEvent) => TResponse | Promise<TResponse>;
 
 /**
  * The interface for a middleware implementation.
  * To implement a middleware, supply the optional before, after and onError methods.
  * @interface
  */
-export type Middleware<
-  TEvent = any,
-  TResponse = void,
-  TError extends Error = Error
-> = {
+export type Middleware<TEvent = any, TResponse = void, TError extends Error = Error> = {
   before?: Before<TEvent>;
   after?: After<TResponse>;
   onError?: OnError<TResponse, TError>;
@@ -41,37 +31,24 @@ export type Middleware<
  * const wrapped = WithMiddleware(handler).use(middleware1).use(middleware2);
  * ```
  */
-export const WithMiddleware = <
-  TEvent = any,
-  TResponse = void,
-  TError extends Error = Error
->(
+export const WithMiddleware = <TEvent = any, TResponse = void, TError extends Error = Error>(
   handler: Handler<TEvent, TResponse>
 ) => {
-  const applyBefore = (
-    existingHandler: Handler<TEvent, TResponse>,
-    before: Before<TEvent>
-  ) => {
+  const applyBefore = (existingHandler: Handler<TEvent, TResponse>, before: Before<TEvent>) => {
     return async (event: TEvent) => {
       const beforeEvent = await before(event);
       return existingHandler(beforeEvent);
     };
   };
 
-  const applyAfter = (
-    existingHandler: Handler<TEvent, TResponse>,
-    after: After<TResponse>
-  ) => {
+  const applyAfter = (existingHandler: Handler<TEvent, TResponse>, after: After<TResponse>) => {
     return async (event: TEvent) => {
       const result = await existingHandler(event);
       return after(result);
     };
   };
 
-  const applyOnError = (
-    existingHandler: Handler<TEvent, TResponse>,
-    onError: OnError<TResponse, TError>
-  ) => {
+  const applyOnError = (existingHandler: Handler<TEvent, TResponse>, onError: OnError<TResponse, TError>) => {
     return async (event: TEvent) => {
       try {
         return await existingHandler(event);
@@ -91,10 +68,7 @@ export const WithMiddleware = <
 
   const allMiddlewares: TMiddleware[] = [];
 
-  const apply = (
-    baseHandler: Handler<TEvent, TResponse>,
-    middlewares: TMiddleware[]
-  ) => {
+  const apply = (baseHandler: Handler<TEvent, TResponse>, middlewares: TMiddleware[]) => {
     let applied: Handler<TEvent, TResponse> = baseHandler;
 
     for (let i = 0; i < middlewares.length; i++) {

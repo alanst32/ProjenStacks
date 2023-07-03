@@ -1,7 +1,5 @@
 import { Middleware } from './core';
-import { UnauthorizedError } from '../aws/apigateway/errors';
-import { Response } from '../aws/apigateway/response';
-import { ApiEvent } from '../aws/apigateway/types';
+import { UnauthorizedError, Response, ApiEvent } from '../apigateway';
 import { Result } from '../lang/result';
 import { log } from '../log';
 

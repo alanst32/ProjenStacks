@@ -1,5 +1,5 @@
 import { Middleware } from './core';
-import { ApiError, Response, ApiEvent } from '../aws/apigateway';
+import { ApiEvent, ApiError, Response } from '../apigateway';
 import { log } from '../log';
 import { extractError, isZodError } from '../zod/utils';
 

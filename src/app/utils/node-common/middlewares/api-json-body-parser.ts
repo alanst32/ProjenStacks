@@ -1,7 +1,5 @@
 import { Middleware } from './core';
-import { ValidationError } from '../aws/apigateway';
-import { Response } from '../aws/apigateway/response';
-import { ApiEvent } from '../aws/apigateway/types';
+import { ApiEvent, ValidationError } from '../apigateway';
 import { Result } from '../lang';
 
 /**

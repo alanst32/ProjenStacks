@@ -18,7 +18,8 @@ export class PSBusinessConstruct extends Construct {
     const { seResource, dbTable, envConfig } = props;
 
     // <domain>/v1/booking
-    const bookingResource = seResource.addResource('booking');
+    const shiftResource = seResource.addResource('shift');
+    const shiftIdResource = shiftResource.addResource('{shiftId}');
 
     // PUT API
     const submitBookingLambda = new NodejsFunction(this, `${envConfig.appEnv}-submit-booking`, {
@@ -30,7 +31,7 @@ export class PSBusinessConstruct extends Construct {
       },
     });
     dbTable.grantWriteData(submitBookingLambda);
-    bookingResource.addMethod('PUT', new LambdaIntegration(submitBookingLambda));
+    shiftResource.addMethod('PUT', new LambdaIntegration(submitBookingLambda));
 
     // GET API
     const getBookingLambda = new NodejsFunction(this, `${envConfig.appEnv}-get-shift-by-id`, {
@@ -42,6 +43,6 @@ export class PSBusinessConstruct extends Construct {
       },
     });
     dbTable.grantReadData(getBookingLambda);
-    bookingResource.addMethod('GET', new LambdaIntegration(getBookingLambda));
+    shiftIdResource.addMethod('GET', new LambdaIntegration(getBookingLambda));
   }
 }

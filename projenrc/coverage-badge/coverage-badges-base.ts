@@ -35,7 +35,7 @@ export class CoverageBadgesBase extends Component {
     workflow.on({ push: { branches: this.allowedBranches } });
 
     workflow.addJob('generate-coverage-badges', {
-      runsOn: ['self-hosted', 'amd64'],
+      runsOn: ['ubuntu-latest'],
       permissions: { contents: JobPermission.WRITE },
       steps: [
         {

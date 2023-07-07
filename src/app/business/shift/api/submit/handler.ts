@@ -2,10 +2,9 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import { ShiftRequest } from '../../model/model';
 import { SubmitShift } from '../../services/submit-shift';
 import { DynamoShiftStore } from '../../store/store';
-import { Response } from 'src/app/utils/node-common/apigateway';
-import { AppContext } from 'src/app/utils/node-common/lambda/appContext';
-import { extractError } from 'src/app/utils/node-common/zod/utils';
-
+import { Response } from 'src/app/utils/node_common/aws/apigateway';
+import { AppContext } from 'src/app/utils/node_common/lambda/appContext';
+import { extractError } from 'src/app/utils/node_common/zod/utils';
 export const Handler = (appCtx: AppContext) => {
   const shiftStore = DynamoShiftStore(appCtx);
   const submitShift = SubmitShift({ shiftStore });

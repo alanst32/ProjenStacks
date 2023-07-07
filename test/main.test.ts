@@ -1,4 +1,4 @@
-test("Snapshot", () => {
+test('Snapshot', () => {
   // const app = new App();
   // const stack = new MyStack(app, "test");
 

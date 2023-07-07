@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { ShiftKey } from '../../model/model.';
+import { ShiftKey } from '../../model/model';
 import { GetShift } from '../../services/get-shift-by-id';
 import { DynamoShiftStore } from '../../store/store';
 import { Response } from 'src/app/utils/node-common/apigateway';

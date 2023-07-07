@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { ShiftRequest } from '../../model/model.';
+import { ShiftRequest } from '../../model/model';
 import { SubmitShift } from '../../services/submit-shift';
 import { DynamoShiftStore } from '../../store/store';
 import { Response } from 'src/app/utils/node-common/apigateway';

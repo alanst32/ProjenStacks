@@ -1,4 +1,4 @@
-import { ShiftKey } from '../model/model.';
+import { ShiftKey } from '../model/model';
 import { ShiftStore } from '../store/types';
 
 export type GetShiftProps = {

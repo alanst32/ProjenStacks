@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { DefaultReducer, Reduce } from './reducer';
 import { ShiftStore } from './types';
 import { QueryAll } from './utils';
-import { ShiftRequest, Shift } from '../model/model.';
+import { ShiftRequest, Shift } from '../model/model';
 
 export const DynamoShiftStore = (props: { table?: string; ttlDays?: number }): ShiftStore => {
   const tableName = props?.table ?? process.env.TABLE_NAME;

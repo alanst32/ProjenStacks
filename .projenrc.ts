@@ -32,7 +32,7 @@ const project = new awscdk.AwsCdkTypeScriptApp({
     '@types/aws-lambda',
     'axios-mock-adapter',
     'eslint-plugin-no-relative-import-paths',
-    'jest-mock-extended@^2.0.6',
+    'jest-mock-extended@^3.0.4',
     'jest-mock-process@^2.0.0',
     'tsconfig-paths',
     'aws-sdk@^2.1249.0',

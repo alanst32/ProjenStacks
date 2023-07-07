@@ -1,4 +1,4 @@
-import { ShiftRequest } from '../model/model.';
+import { ShiftRequest } from '../model/model';
 import { ShiftStore } from '../store/types';
 
 export type SubmitShiftProps = {

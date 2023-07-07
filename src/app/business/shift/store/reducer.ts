@@ -1,5 +1,5 @@
 import { flatten } from 'lodash';
-import { Shift } from '../model/model.';
+import { Shift } from '../model/model';
 
 export type Reducer = (shfit: Shift, record: any) => Shift;
 

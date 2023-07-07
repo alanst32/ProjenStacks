@@ -27,6 +27,7 @@ export const standardEnvs: EnvConfig[] = [
   //   isProd: true,
   //   hostedZone: { id: 'TODO', name: `ps-projen-stacks-cevodev.com.au}` },
   // },
+  // TODO test PR
 ];
 
 export const getEnvConfigs = (): EnvConfig[] => {

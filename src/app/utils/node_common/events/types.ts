@@ -10,16 +10,16 @@ export type Context = { [name: string]: Serializable };
 
 /** Represents an event of an entity. */
 export type Event<T extends EventType = EventType, P extends Payload = Payload> = {
-    readonly entity: Entity;
-    readonly type: T;
-    readonly payload: P;
-    readonly context?: Context;
+  readonly entity: Entity;
+  readonly type: T;
+  readonly payload: P;
+  readonly context?: Context;
 };
 
 /** Represents a published event of the system. */
 export type PublishedEvent<E extends Event = Event> = E & {
-    readonly id: string;
-    readonly timestamp: Timestamp;
+  readonly id: string;
+  readonly timestamp: Timestamp;
 };
 
 /** The event listener interface. */
@@ -27,14 +27,14 @@ export type EventListener<E extends PublishedEvent = PublishedEvent> = (event: E
 
 /** The event publishing options. */
 export type PublishOptions = {
-    /** Whether the event should be propagated via the event dispatcher. Default value is false. In most cases, event publishing should not be silent. In some cases, however, it may be required to store the event without propagating it unnecessarily, i.e. no listeners are expected to process the event. */
-    silent?: boolean;
+  /** Whether the event should be propagated via the event dispatcher. Default value is false. In most cases, event publishing should not be silent. In some cases, however, it may be required to store the event without propagating it unnecessarily, i.e. no listeners are expected to process the event. */
+  silent?: boolean;
 };
 
 export type QueryOptions = {
-    limit?: number;
-    eventType?: EventType;
-    ascending?: boolean;
+  limit?: number;
+  eventType?: EventType;
+  ascending?: boolean;
 };
 
 /**
@@ -42,32 +42,32 @@ export type QueryOptions = {
  * @interface
  */
 export type EventStore = {
-    /**
-     * Publishes and record the event in the store.
-     * @param event The {@link Event} to publish.
-     */
-    publish: (event: Event, options?: PublishOptions) => Promise<void>;
+  /**
+   * Publishes and record the event in the store.
+   * @param event The {@link Event} to publish.
+   */
+  publish: (event: Event, options?: PublishOptions) => Promise<void>;
 
-    /**
-     * Record the event without propagation.
-     * Same as the `publish` method with the `silent` flag set to true.
-     * @param event The {@link Event} to record.
-     */
-    record: (event: Event) => Promise<void>;
+  /**
+   * Record the event without propagation.
+   * Same as the `publish` method with the `silent` flag set to true.
+   * @param event The {@link Event} to record.
+   */
+  record: (event: Event) => Promise<void>;
 
-    /**
-     * Load all published events for the entity from the store.
-     * @param entity The {@link Entity} object.
-     * @returns void
-     */
-    load: (entity: Entity, options?: QueryOptions) => Promise<PublishedEvent[]>;
+  /**
+   * Load all published events for the entity from the store.
+   * @param entity The {@link Entity} object.
+   * @returns void
+   */
+  load: (entity: Entity, options?: QueryOptions) => Promise<PublishedEvent[]>;
 
-    /**
-     * Remove or delete all stored events for the entity from the store.
-     * @param entity The {@link Entity} object.
-     * @returns void
-     */
-    remove: (entity: Entity) => Promise<void>;
+  /**
+   * Remove or delete all stored events for the entity from the store.
+   * @param entity The {@link Entity} object.
+   * @returns void
+   */
+  remove: (entity: Entity) => Promise<void>;
 };
 
 /**
@@ -76,7 +76,7 @@ export type EventStore = {
  * @interface
  */
 export type Dispatcher = {
-    dispatch: (published: PublishedEvent) => Promise<void>;
+  dispatch: (published: PublishedEvent) => Promise<void>;
 };
 
 /**
@@ -91,7 +91,7 @@ export type FunctionEventKey = { id: string; functionName: string };
  * @enum
  */
 export enum EventTrigger {
-    Client = 'client',
-    Expiry = 'expiry',
-    Schedule = 'schedule',
+  Client = 'client',
+  Expiry = 'expiry',
+  Schedule = 'schedule',
 }

@@ -19,5 +19,5 @@ export const uniq = <T>(items: T[]) => [...new Set(items)];
  * ```
  */
 export const dupe = <T>(arr: T[]) => {
-    return uniq(arr.filter((item, i) => arr.indexOf(item) !== i));
+  return uniq(arr.filter((item, i) => arr.indexOf(item) !== i));
 };

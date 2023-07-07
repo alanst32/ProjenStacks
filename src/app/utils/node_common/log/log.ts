@@ -1,7 +1,7 @@
 import { Logger, LogLevel } from './logger';
 
 const currentLevel = (): LogLevel => {
-    return process.env.NODE_ENV === 'test' ? 'silent' : ((process.env.LOG_LEVEL || 'info').toLowerCase() as LogLevel);
+  return process.env.NODE_ENV === 'test' ? 'silent' : ((process.env.LOG_LEVEL || 'info').toLowerCase() as LogLevel);
 };
 
 /**

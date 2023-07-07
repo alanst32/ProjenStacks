@@ -16,9 +16,9 @@ export type Handler<TEvent, TResponse> = (event: TEvent) => TResponse | Promise<
  * @interface
  */
 export type Middleware<TEvent = any, TResponse = void, TError extends Error = Error> = {
-    before?: Before<TEvent>;
-    after?: After<TResponse>;
-    onError?: OnError<TResponse, TError>;
+  before?: Before<TEvent>;
+  after?: After<TResponse>;
+  onError?: OnError<TResponse, TError>;
 };
 
 /**
@@ -32,66 +32,66 @@ export type Middleware<TEvent = any, TResponse = void, TError extends Error = Er
  * ```
  */
 export const WithMiddleware = <TEvent = any, TResponse = void, TError extends Error = Error>(
-    handler: Handler<TEvent, TResponse>
+  handler: Handler<TEvent, TResponse>
 ) => {
-    const applyBefore = (existingHandler: Handler<TEvent, TResponse>, before: Before<TEvent>) => {
-        return async (event: TEvent) => {
-            const beforeEvent = await before(event);
-            return existingHandler(beforeEvent);
-        };
+  const applyBefore = (existingHandler: Handler<TEvent, TResponse>, before: Before<TEvent>) => {
+    return async (event: TEvent) => {
+      const beforeEvent = await before(event);
+      return existingHandler(beforeEvent);
     };
+  };
 
-    const applyAfter = (existingHandler: Handler<TEvent, TResponse>, after: After<TResponse>) => {
-        return async (event: TEvent) => {
-            const result = await existingHandler(event);
-            return after(result);
-        };
+  const applyAfter = (existingHandler: Handler<TEvent, TResponse>, after: After<TResponse>) => {
+    return async (event: TEvent) => {
+      const result = await existingHandler(event);
+      return after(result);
     };
+  };
 
-    const applyOnError = (existingHandler: Handler<TEvent, TResponse>, onError: OnError<TResponse, TError>) => {
-        return async (event: TEvent) => {
-            try {
-                return await existingHandler(event);
-            } catch (error: any) {
-                return onError(error);
-            }
-        };
+  const applyOnError = (existingHandler: Handler<TEvent, TResponse>, onError: OnError<TResponse, TError>) => {
+    return async (event: TEvent) => {
+      try {
+        return await existingHandler(event);
+      } catch (error: any) {
+        return onError(error);
+      }
     };
+  };
 
-    /** @internal */
-    type TMiddleware = Middleware<TEvent, TResponse, TError>;
+  /** @internal */
+  type TMiddleware = Middleware<TEvent, TResponse, TError>;
 
-    /** @internal */
-    type TAppliedHandler = Handler<TEvent, TResponse> & {
-        use: (...middlewares: TMiddleware[]) => TAppliedHandler;
-    };
+  /** @internal */
+  type TAppliedHandler = Handler<TEvent, TResponse> & {
+    use: (...middlewares: TMiddleware[]) => TAppliedHandler;
+  };
 
-    const allMiddlewares: TMiddleware[] = [];
+  const allMiddlewares: TMiddleware[] = [];
 
-    const apply = (baseHandler: Handler<TEvent, TResponse>, middlewares: TMiddleware[]) => {
-        let applied: Handler<TEvent, TResponse> = baseHandler;
+  const apply = (baseHandler: Handler<TEvent, TResponse>, middlewares: TMiddleware[]) => {
+    let applied: Handler<TEvent, TResponse> = baseHandler;
 
-        for (let i = 0; i < middlewares.length; i++) {
-            // Reverse order so first added 'before' will run first
-            const before = middlewares[middlewares.length - 1 - i].before;
-            applied = before ? applyBefore(applied, before) : applied;
+    for (let i = 0; i < middlewares.length; i++) {
+      // Reverse order so first added 'before' will run first
+      const before = middlewares[middlewares.length - 1 - i].before;
+      applied = before ? applyBefore(applied, before) : applied;
 
-            const after = middlewares[i].after;
-            applied = after ? applyAfter(applied, after) : applied;
+      const after = middlewares[i].after;
+      applied = after ? applyAfter(applied, after) : applied;
 
-            const onError = middlewares[i].onError;
-            applied = onError ? applyOnError(applied, onError) : applied;
-        }
+      const onError = middlewares[i].onError;
+      applied = onError ? applyOnError(applied, onError) : applied;
+    }
 
-        return applied;
-    };
+    return applied;
+  };
 
-    const use = (...middlewares: TMiddleware[]): TAppliedHandler => {
-        allMiddlewares.push(...middlewares);
-        const applied = apply(handler, allMiddlewares);
-        // Add 'use' function so that we can chain the call.
-        return Object.setPrototypeOf(applied, { ...applied.prototype, use });
-    };
+  const use = (...middlewares: TMiddleware[]): TAppliedHandler => {
+    allMiddlewares.push(...middlewares);
+    const applied = apply(handler, allMiddlewares);
+    // Add 'use' function so that we can chain the call.
+    return Object.setPrototypeOf(applied, { ...applied.prototype, use });
+  };
 
-    return use(...allMiddlewares);
+  return use(...allMiddlewares);
 };

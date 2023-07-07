@@ -2,17 +2,17 @@ import { Response } from './response';
 import { ApiEvent } from './types';
 import { log } from '../../log';
 import {
-    ApiErrorHandler,
-    ApiHeaderNormalizer,
-    ApiJsonBodyParser,
-    ApiLogger,
-    Middleware,
-    WithMiddleware,
+  ApiErrorHandler,
+  ApiHeaderNormalizer,
+  ApiJsonBodyParser,
+  ApiLogger,
+  Middleware,
+  WithMiddleware,
 } from '../../middlewares';
 
 export type Option = {
-    /** Extra middlewares to add. */
-    middlewares: Middleware<ApiEvent, Response>[];
+  /** Extra middlewares to add. */
+  middlewares: Middleware<ApiEvent, Response>[];
 };
 
 /**
@@ -28,11 +28,11 @@ export type ApiHandler = (event: ApiEvent) => Response | Promise<Response>;
  * @returns API Gateway handler wrapped in middlewares.
  */
 export const ApiHandler = (handler: ApiHandler, option?: Partial<Option>): ApiHandler => {
-    return WithMiddleware(handler).use(
-        ApiHeaderNormalizer(),
-        ApiJsonBodyParser(),
-        ...(option?.middlewares || []),
-        ApiErrorHandler(),
-        ApiLogger(log)
-    );
+  return WithMiddleware(handler).use(
+    ApiHeaderNormalizer(),
+    ApiJsonBodyParser(),
+    ...(option?.middlewares || []),
+    ApiErrorHandler(),
+    ApiLogger(log)
+  );
 };

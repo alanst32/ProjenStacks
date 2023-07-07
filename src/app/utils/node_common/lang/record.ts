@@ -4,11 +4,11 @@
  * @returns The record with lower-cased property names.
  */
 export const toLowerCasedKey = <T>(record: Record<string, T>) => {
-    if (!record) return record;
+  if (!record) return record;
 
-    const newRecord: Record<string, T> = {};
-    Object.keys(record).forEach(key => {
-        newRecord[key.toLowerCase()] = record[key];
-    });
-    return newRecord;
+  const newRecord: Record<string, T> = {};
+  Object.keys(record).forEach(key => {
+    newRecord[key.toLowerCase()] = record[key];
+  });
+  return newRecord;
 };

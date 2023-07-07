@@ -1,8 +1,8 @@
 import { EventBridge } from 'aws-sdk';
+import { withErrorCheck } from '../../aws/utils/utils';
 import { log } from '../../log';
 import { Dispatcher, PublishedEvent } from '../types';
 import { stringifyEvent } from '../utils';
-import { withErrorCheck } from '../../aws/utils/utils';
 
 /**
  * Event dispatcher using EventBridge
@@ -12,30 +12,30 @@ import { withErrorCheck } from '../../aws/utils/utils';
  * @hidden
  */
 export const EventBridgeDispatcher = (stackName: string, sourcePrefix: string): Dispatcher => {
-    const bridge = new EventBridge();
+  const bridge = new EventBridge();
 
-    return {
-        dispatch: async (event: PublishedEvent) => {
-            log.trace({ event }, 'Dispatching event...');
+  return {
+    dispatch: async (event: PublishedEvent) => {
+      log.trace({ event }, 'Dispatching event...');
 
-            await withErrorCheck(
-                bridge.putEvents({
-                    Entries: [
-                        {
-                            EventBusName: `${stackName}-events`,
-                            Source: `${sourcePrefix}-${stackName}`,
-                            DetailType: event.type,
-                            Detail: stringifyEvent(event),
-                        },
-                    ],
-                }),
-                'Failed dispatching event'
-            );
+      await withErrorCheck(
+        bridge.putEvents({
+          Entries: [
+            {
+              EventBusName: `${stackName}-events`,
+              Source: `${sourcePrefix}-${stackName}`,
+              DetailType: event.type,
+              Detail: stringifyEvent(event),
+            },
+          ],
+        }),
+        'Failed dispatching event'
+      );
 
-            log.debug({ event }, 'Event dispatched');
+      log.debug({ event }, 'Event dispatched');
 
-            const { id, type, entity, context } = event;
-            log.metric({ name: 'event-dispatched', id, type, entity, context });
-        },
-    };
+      const { id, type, entity, context } = event;
+      log.metric({ name: 'event-dispatched', id, type, entity, context });
+    },
+  };
 };

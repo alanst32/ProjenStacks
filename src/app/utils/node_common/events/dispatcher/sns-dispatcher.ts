@@ -1,8 +1,8 @@
 import { SNS } from 'aws-sdk';
+import { withErrorCheck } from '../../aws/utils/utils';
 import { log } from '../../log';
 import { Dispatcher, PublishedEvent } from '../types';
 import { stringifyEvent } from '../utils';
-import { withErrorCheck } from '../../aws/utils/utils';
 
 type Props = { topicArn: string };
 
@@ -13,27 +13,27 @@ type Props = { topicArn: string };
  * @hidden
  */
 export const SnsDispatcher = (props: Props): Dispatcher => {
-    const sns = new SNS();
+  const sns = new SNS();
 
-    return {
-        dispatch: async (event: PublishedEvent) => {
-            log.debug({ event }, 'Dispatching event...');
+  return {
+    dispatch: async (event: PublishedEvent) => {
+      log.debug({ event }, 'Dispatching event...');
 
-            await withErrorCheck(
-                sns.publish({
-                    TopicArn: props.topicArn,
-                    Message: stringifyEvent(event),
-                    MessageAttributes: {
-                        eventType: { DataType: 'String', StringValue: event.type },
-                    },
-                }),
-                'Failed dispatching event'
-            );
+      await withErrorCheck(
+        sns.publish({
+          TopicArn: props.topicArn,
+          Message: stringifyEvent(event),
+          MessageAttributes: {
+            eventType: { DataType: 'String', StringValue: event.type },
+          },
+        }),
+        'Failed dispatching event'
+      );
 
-            log.debug({ id: event.id }, 'Event dispatched');
+      log.debug({ id: event.id }, 'Event dispatched');
 
-            const { id, type, entity, context } = event;
-            log.metric({ name: 'event-dispatched', id, type, entity, context });
-        },
-    };
+      const { id, type, entity, context } = event;
+      log.metric({ name: 'event-dispatched', id, type, entity, context });
+    },
+  };
 };

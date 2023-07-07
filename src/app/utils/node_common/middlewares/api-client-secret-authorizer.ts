@@ -4,11 +4,11 @@ import { Result } from '../lang/result';
 import { log } from '../log';
 
 export type Props = {
-    /**
-     * The function used to fetch the client and secret that will be used to validate the request.
-     * @param clientId The client ID.
-     */
-    getClientSecret: (clientId: string) => Promise<string>;
+  /**
+   * The function used to fetch the client and secret that will be used to validate the request.
+   * @param clientId The client ID.
+   */
+  getClientSecret: (clientId: string) => Promise<string>;
 };
 
 /**
@@ -17,22 +17,22 @@ export type Props = {
  * @returns
  */
 export const ApiClientSecretAuthorizer = (props: Props): Middleware<ApiEvent, Response> => ({
-    before: async event => {
-        const clientId = event.headers?.['x-client-id'];
-        const clientSecret = event.headers?.['x-client-secret'];
-        // TODO collect the right header for this function, since we are going with Bearer Token
+  before: async event => {
+    const clientId = event.headers?.['x-client-id'];
+    const clientSecret = event.headers?.['x-client-secret'];
+    // TODO collect the right header for this function, since we are going with Bearer Token
 
-        if (!clientId || !clientSecret) {
-            throw new UnauthorizedError('Missing or incomplete credentials');
-        }
+    if (!clientId || !clientSecret) {
+      throw new UnauthorizedError('Missing or incomplete credentials');
+    }
 
-        const res = await Result.from(props.getClientSecret(clientId));
+    const res = await Result.from(props.getClientSecret(clientId));
 
-        if (!res.success || !res.value || clientSecret !== res.value) {
-            throw new UnauthorizedError('Invalid credentials');
-        }
+    if (!res.success || !res.value || clientSecret !== res.value) {
+      throw new UnauthorizedError('Invalid credentials');
+    }
 
-        log.trace('Credentials OK');
-        return event;
-    },
+    log.trace('Credentials OK');
+    return event;
+  },
 });

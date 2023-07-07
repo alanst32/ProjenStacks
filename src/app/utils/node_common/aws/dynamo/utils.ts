@@ -4,7 +4,7 @@
  * @returns TTL value for DynamoDB.
  */
 export const ttlFromDate = (date = new Date()) => {
-    return Math.floor(date.getTime() / 1000);
+  return Math.floor(date.getTime() / 1000);
 };
 
 /**
@@ -13,6 +13,6 @@ export const ttlFromDate = (date = new Date()) => {
  * @returns TTL value for DynamoDB.
  */
 export const getTimeToLive = (minutesLater = 30) => {
-    const now = ttlFromDate();
-    return now + Math.abs(isNaN(minutesLater) ? 30 : minutesLater) * 60;
+  const now = ttlFromDate();
+  return now + Math.abs(isNaN(minutesLater) ? 30 : minutesLater) * 60;
 };

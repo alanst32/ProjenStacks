@@ -11,36 +11,36 @@ import { ScheduleRetry } from './schedule-retry';
  * Default event store which uses DynamoDB as store.
  */
 export const defaultEventStore = (() => {
-    const table = process.env.TABLE_NAME || 'MISSING:TABLE_NAME';
-    const stackName = process.env.STACK_NAME || 'MISSING:STACK_NAME';
-    const sourcePrefix = 'com.rosterfy.community';
-    const entityEventIndexName = process.env.ENTITY_EVENT_INDEX_NAME || 'MISSING:ENTITY_EVENT_INDEX_NAME';
-    const topicArn = process.env.ENTITY_EVENT_TOPIC_ARN;
-    const dispatcher = topicArn ? SnsDispatcher({ topicArn }) : EventBridgeDispatcher(stackName, sourcePrefix);
-    return DynEventStore({ table, dispatcher, entityEventIndexName });
+  const table = process.env.TABLE_NAME || 'MISSING:TABLE_NAME';
+  const stackName = process.env.STACK_NAME || 'MISSING:STACK_NAME';
+  const sourcePrefix = 'com.rosterfy.community';
+  const entityEventIndexName = process.env.ENTITY_EVENT_INDEX_NAME || 'MISSING:ENTITY_EVENT_INDEX_NAME';
+  const topicArn = process.env.ENTITY_EVENT_TOPIC_ARN;
+  const dispatcher = topicArn ? SnsDispatcher({ topicArn }) : EventBridgeDispatcher(stackName, sourcePrefix);
+  return DynEventStore({ table, dispatcher, entityEventIndexName });
 })();
 
 /**
  * Default event bus which uses EventBridge as transport.
  */
 export const defaultEventBus = (() => {
-    const table = process.env.TABLE_NAME || 'MISSING:TABLE_NAME';
-    const retryQueueUrl = process.env.RETRY_QUEUE_URL || 'MISSING:RETRY_QUEUE_URL';
-    const retryAttempt = Number(process.env.RETRY_ATTEMPT || 2);
-    const receiptStore = DynEventReceiptStore(table, 120);
-    const failureStore = DynFailureStore(table);
-    const scheduleRetry = ScheduleRetry({ receiptStore, failureStore, retryQueueUrl, retryAttempt });
+  const table = process.env.TABLE_NAME || 'MISSING:TABLE_NAME';
+  const retryQueueUrl = process.env.RETRY_QUEUE_URL || 'MISSING:RETRY_QUEUE_URL';
+  const retryAttempt = Number(process.env.RETRY_ATTEMPT || 2);
+  const receiptStore = DynEventReceiptStore(table, 120);
+  const failureStore = DynFailureStore(table);
+  const scheduleRetry = ScheduleRetry({ receiptStore, failureStore, retryQueueUrl, retryAttempt });
 
-    return {
-        addListener: AddListener({ receiptStore, scheduleRetry }),
-    };
+  return {
+    addListener: AddListener({ receiptStore, scheduleRetry }),
+  };
 })();
 
 /**
  * Default schedule store which uses EventBridge Scheduler to schedule events.
  */
 export const defaultScheduleStore = (() => {
-    return EventBridgeEventScheduleStore(EventBridgeEventScheduleStoreProps());
+  return EventBridgeEventScheduleStore(EventBridgeEventScheduleStoreProps());
 })();
 
 /**
@@ -49,9 +49,9 @@ export const defaultScheduleStore = (() => {
  * the dispatcher will use SnsDispatcher and publish event to the SNS topic.
  */
 export namespace Event {
-    export const store = defaultEventStore;
-    export const publish = store.publish;
-    export const record = store.record;
-    export const remove = store.remove;
-    export const addListener = defaultEventBus.addListener;
+  export const store = defaultEventStore;
+  export const publish = store.publish;
+  export const record = store.record;
+  export const remove = store.remove;
+  export const addListener = defaultEventBus.addListener;
 }

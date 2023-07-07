@@ -1,9 +1,9 @@
 export type JsonMaskProps = {
-    /** Whether to ignore the property name case. */
-    ignoreCase: boolean;
+  /** Whether to ignore the property name case. */
+  ignoreCase: boolean;
 
-    /** The replacement value. */
-    replacement: string;
+  /** The replacement value. */
+  replacement: string;
 };
 
 /**
@@ -14,32 +14,32 @@ export type JsonMaskProps = {
  * @returns The masking function.
  */
 export const JsonMask = (keywords: string[], props?: Partial<JsonMaskProps>) => {
-    const opts = { ignoreCase: false, replacement: '********', ...props };
+  const opts = { ignoreCase: false, replacement: '********', ...props };
 
-    const strip = (obj: Record<string, any>) => {
-        if (obj === null || typeof obj !== 'object') return obj;
+  const strip = (obj: Record<string, any>) => {
+    if (obj === null || typeof obj !== 'object') return obj;
 
-        const keys = Object.keys(obj);
+    const keys = Object.keys(obj);
 
-        keys.forEach(key => {
-            const isMatched = keywords.some(keyword =>
-                opts.ignoreCase ? `${key}`.toLowerCase() === `${keyword}`.toLowerCase() : key === keyword
-            );
+    keys.forEach(key => {
+      const isMatched = keywords.some(keyword =>
+        opts.ignoreCase ? `${key}`.toLowerCase() === `${keyword}`.toLowerCase() : key === keyword
+      );
 
-            if (isMatched) {
-                obj[key] = opts.replacement;
-            }
+      if (isMatched) {
+        obj[key] = opts.replacement;
+      }
 
-            if (typeof obj[key] === 'object') {
-                strip(obj[key]);
-            }
-        });
+      if (typeof obj[key] === 'object') {
+        strip(obj[key]);
+      }
+    });
 
-        return obj;
-    };
+    return obj;
+  };
 
-    return (obj: any) => {
-        const clone = JSON.parse(JSON.stringify(obj));
-        return strip(clone);
-    };
+  return (obj: any) => {
+    const clone = JSON.parse(JSON.stringify(obj));
+    return strip(clone);
+  };
 };

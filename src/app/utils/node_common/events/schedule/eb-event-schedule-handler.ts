@@ -3,7 +3,7 @@ import { log } from '../../log';
 import { Event, EventStore } from '../types';
 
 export type EventBridgeEventScheduleHandlerProps = {
-    eventStore: EventStore;
+  eventStore: EventStore;
 };
 
 /**
@@ -13,19 +13,19 @@ export type EventBridgeEventScheduleHandlerProps = {
  * @returns The lambda handler.
  */
 export const EventBridgeEventScheduleHandler = (props: EventBridgeEventScheduleHandlerProps) => {
-    const { eventStore } = props;
-    const scheduleStore = EventBridgeEventScheduleStore(EventBridgeEventScheduleStoreProps());
+  const { eventStore } = props;
+  const scheduleStore = EventBridgeEventScheduleStore(EventBridgeEventScheduleStoreProps());
 
-    return async (event: Event) => {
-        log.debug({ event }, 'Received scheduled event');
+  return async (event: Event) => {
+    log.debug({ event }, 'Received scheduled event');
 
-        await eventStore.publish(event);
-        const scheduleName = event.context?.scheduleName;
+    await eventStore.publish(event);
+    const scheduleName = event.context?.scheduleName;
 
-        if (!scheduleName) {
-            return log.warn({ entity: event.entity, type: event.type }, 'Event does not have scheduleName');
-        }
+    if (!scheduleName) {
+      return log.warn({ entity: event.entity, type: event.type }, 'Event does not have scheduleName');
+    }
 
-        await scheduleStore.remove(scheduleName.toString());
-    };
+    await scheduleStore.remove(scheduleName.toString());
+  };
 };

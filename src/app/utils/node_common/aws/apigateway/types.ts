@@ -3,7 +3,7 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 
 /** Extended {@link @aws-lambda/APIGatewayProxyEvent} with additional `rawBody` and `rawHeaders` properties. */
 export type ApiEvent = APIGatewayProxyEvent & {
-    body: any;
-    rawBody: string;
-    rawHeaders: Record<string, string>;
+  body: any;
+  rawBody: string;
+  rawHeaders: Record<string, string>;
 };

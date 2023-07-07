@@ -18,8 +18,8 @@ export type Operation<T> = { promise: () => Promise<PromiseResult<T, AWSError>> 
  * ```
  */
 export const withErrorCheck = async <T>(operation: Operation<T>, message?: string) => {
-    const res = await operation.promise();
-    if (!res.$response?.error) return res;
-    log.error({ message: res.$response.error.message || message || 'Operation failed' });
-    throw res.$response.error;
+  const res = await operation.promise();
+  if (!res.$response?.error) return res;
+  log.error({ message: res.$response.error.message || message || 'Operation failed' });
+  throw res.$response.error;
 };

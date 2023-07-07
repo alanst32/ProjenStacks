@@ -7,19 +7,19 @@ import { withErrorCheck } from '../utils';
  * SecretProvider type interface to be implemented.
  */
 export type SecretProvider = {
-    /**
-     * Gets secret with type casting.
-     * @param key The secret ID or name.
-     * @returns The type-cast secret.
-     */
-    getSecret: <T>(key: string) => Promise<T>;
+  /**
+   * Gets secret with type casting.
+   * @param key The secret ID or name.
+   * @returns The type-cast secret.
+   */
+  getSecret: <T>(key: string) => Promise<T>;
 
-    /**
-     * Gets raw secret in string.
-     * @param key The secret ID or name.
-     * @returns The secret string.
-     */
-    getRawSecret: (key: string) => Promise<string>;
+  /**
+   * Gets raw secret in string.
+   * @param key The secret ID or name.
+   * @returns The secret string.
+   */
+  getRawSecret: (key: string) => Promise<string>;
 };
 
 /**
@@ -28,17 +28,17 @@ export type SecretProvider = {
  * @returns Cached {@link SecretProvider} implementation.
  */
 export const CachedSecretProvider = (): SecretProvider => {
-    const sm = new SecretsManager();
+  const sm = new SecretsManager();
 
-    const cache = new PromiseCache('secret-provider-cache', async key => {
-        const result = await withErrorCheck(sm.getSecretValue({ SecretId: key }));
-        return result.SecretString || EMPTY_STRING;
-    });
+  const cache = new PromiseCache('secret-provider-cache', async key => {
+    const result = await withErrorCheck(sm.getSecretValue({ SecretId: key }));
+    return result.SecretString || EMPTY_STRING;
+  });
 
-    const getSecret = async <T>(key: string): Promise<T> => {
-        const raw = await cache.get(key);
-        return JSON.parse(raw) as T;
-    };
+  const getSecret = async <T>(key: string): Promise<T> => {
+    const raw = await cache.get(key);
+    return JSON.parse(raw) as T;
+  };
 
-    return { getSecret, getRawSecret: cache.get };
+  return { getSecret, getRawSecret: cache.get };
 };

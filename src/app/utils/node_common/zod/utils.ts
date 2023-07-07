@@ -6,7 +6,7 @@ import { ZodError } from 'zod';
  * @returns True if the object is an instance of ZodError.
  */
 export const isZodError = (error: any): error is ZodError => {
-    return error.issues && typeof error.flatten === 'function';
+  return error.issues && typeof error.flatten === 'function';
 };
 
 /**
@@ -16,18 +16,18 @@ export const isZodError = (error: any): error is ZodError => {
  * @returns The error messages.
  */
 export const extractError = (error: any, includePath = true): string[] => {
-    if (typeof error === 'string') {
-        return [error];
-    } else if (isZodError(error)) {
-        return error.issues.map(issue => {
-            const path = includePath ? issue.path.join('.') : undefined;
-            return `${issue.message} ${path ? `at ${path}` : ''}`.trim();
-        });
-    } else if (error.message) {
-        return [error.message];
-    }
+  if (typeof error === 'string') {
+    return [error];
+  } else if (isZodError(error)) {
+    return error.issues.map(issue => {
+      const path = includePath ? issue.path.join('.') : undefined;
+      return `${issue.message} ${path ? `at ${path}` : ''}`.trim();
+    });
+  } else if (error.message) {
+    return [error.message];
+  }
 
-    return [JSON.stringify(error)];
+  return [JSON.stringify(error)];
 };
 
 /**
@@ -37,6 +37,6 @@ export const extractError = (error: any, includePath = true): string[] => {
  * @returns The error messages in string.
  */
 export const extractErrorString = (error: any, includePath = true): string => {
-    const messages = extractError(error, includePath);
-    return messages.join('; ');
+  const messages = extractError(error, includePath);
+  return messages.join('; ');
 };

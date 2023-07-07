@@ -18,12 +18,12 @@ export const EMPTY_STRING = '';
  * ```
  */
 export const fillTemplate = (template: string, values: Record<string, Serializable>, wrapped = true): string => {
-    let result = template;
+  let result = template;
 
-    Object.keys(values).forEach(k => {
-        const searchText = wrapped ? `\\$?\\{{1,2}${k}\\}{1,2}` : k;
-        result = result.replace(new RegExp(searchText, 'gi'), values[k]?.toString() || 'undefined');
-    });
+  Object.keys(values).forEach(k => {
+    const searchText = wrapped ? `\\$?\\{{1,2}${k}\\}{1,2}` : k;
+    result = result.replace(new RegExp(searchText, 'gi'), values[k]?.toString() || 'undefined');
+  });
 
-    return result;
+  return result;
 };

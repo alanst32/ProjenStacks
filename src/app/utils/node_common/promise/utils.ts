@@ -5,9 +5,9 @@ import { TimeoutError } from '../aws/apigateway/errors';
  * @param ms Time to sleep in milliseconds
  */
 export const sleep = (ms = 50): Promise<void> => {
-    return new Promise(resolve => {
-        setTimeout(() => resolve(), ms);
-    });
+  return new Promise(resolve => {
+    setTimeout(() => resolve(), ms);
+  });
 };
 
 /**
@@ -16,7 +16,7 @@ export const sleep = (ms = 50): Promise<void> => {
  * @param seconds Time to wait in milliseconds.
  */
 export const timeout = (message: string, ms = 50) => {
-    return new Promise((_, reject) => {
-        setTimeout(() => reject(new TimeoutError(`${message} (after ${ms}ms)`)), ms);
-    });
+  return new Promise((_, reject) => {
+    setTimeout(() => reject(new TimeoutError(`${message} (after ${ms}ms)`)), ms);
+  });
 };

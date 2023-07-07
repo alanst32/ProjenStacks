@@ -22,7 +22,7 @@ jobs:
           path: ./source
       - name: npm login
         env:
-          NPM_TOKEN: ${{ secrets.READONLY_GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: echo "//npm.pkg.github.com/:_authToken=${NPM_TOKEN}" > ~/.npmrc
       - name: setup node
         uses: actions/setup-node@v3

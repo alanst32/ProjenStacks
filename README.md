@@ -1,5 +1,9 @@
 # Welcome to your CDK TypeScript project
 
+![Build Status](https://github.com/alanst32/ProjenStacks/actions/workflows/build.yml/badge.svg)
+![CodeQL Status](https://github.com/alanst32/ProjenStacks/actions/workflows/codeql-analysis.yml/badge.svg)
+![Release Status](https://github.com/alanst32/ProjenStacks/actions/workflows/release.yml/badge.svg)
+
 This is a blank project for CDK development with TypeScript.
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
